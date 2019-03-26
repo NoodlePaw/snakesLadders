@@ -7,30 +7,6 @@ using System.Threading.Tasks;
 
 namespace SnakesAndLadders
 {
-     class Player
-    {
-        protected string name;
-        protected string colour;
-
-        public Player(string _name, string _colour)
-        {
-            this.name = _name;
-            this.colour = _colour;
-        }
-
-        public string Name
-        {
-            get { return this.name; }
-            set { this.name = value; }
-        }
-
-        public string Colour
-        {
-            get { return this.colour; }
-            set { this.colour = value; }
-        }
-    }
-    
     class Program
     {
         class Square
@@ -54,60 +30,6 @@ namespace SnakesAndLadders
             int[] plrpstn = new int[5];
         }
 
-         public static void CollectData(ref int numOfPlayers)
-        {
-            List<string> colourOptions = new List<string>(new string[] { "Red","Green","Blue","Cyan","Magenta"});
-
-            bool intCheck = false;
-            while (intCheck == false)
-            {
-                Console.WriteLine("Please enter the number of players(between 2 - 5): ");
-                intCheck = int.TryParse(Console.ReadLine(), out numOfPlayers);
-
-                if (numOfPlayers < 2 || numOfPlayers > 5)
-                    intCheck = false;
-
-                if (intCheck == false)
-                {
-                    Console.WriteLine("Invalid entry! Please try again!");
-                }
-            }
-
-            Player[] players = new Player[numOfPlayers];
-
-            //Collects names of players and colour chosen.
-            for (int i = 0; i < players.Length; i++)
-            {
-                Console.WriteLine("");
-                string currentName = "";
-                string currentColour = "";
-
-                Console.WriteLine("Player {0}, please enter your name: ", i + 1);
-                currentName = Console.ReadLine();
-
-                bool colourCheck = false;
-                while (colourCheck == false)
-                {
-                    int colourChoice = 0;
-                    Console.WriteLine("Which colour would you like to use?");
-                    for (int x = 0; x < colourOptions.Count; x++)
-                        Console.WriteLine("{0}. {1}", x + 1, colourOptions[x]);
-
-                    colourCheck = int.TryParse(Console.ReadLine(), out colourChoice);
-                    if (colourChoice < 1 || colourChoice > 5)
-                        colourCheck = false;
-                    if (colourCheck == false)
-                        Console.WriteLine("Invalid entry! Please try again!");
-                    else
-                    {
-                        currentColour = colourOptions[colourChoice - 1];
-                        colourOptions.RemoveAt(colourChoice - 1);
-                    }
-                players[i] = new Player(currentName, currentColour);
-            }
-            Console.ReadKey();
-        }
-    
         //changes player location
         static void Move(int place, int roll)
         {
@@ -178,8 +100,15 @@ namespace SnakesAndLadders
             }
             if (currentsquare.Type == "W")
             {
-                string winplayer = currentplayer;
+                Announce(currentplayer);
             }
+             
+        }
+        
+         static void Announce(string winnerName)
+        {
+            Console.WriteLine($"The winner is {winnerName}!");
+            Console.WriteLine($"There is no prize. The cake was a lie.");
         }
         
         static int GetDieValue()
